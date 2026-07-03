@@ -1,18 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { MAIN_KNOCKOUT_PHASES, PHASE_LABELS } from "@/lib/bracket/advanceMap";
+import { MAIN_KNOCKOUT_PHASES } from "@/lib/bracket/advanceMap";
 import { useTournamentStore } from "@/lib/store/tournamentStore";
 import type { Match } from "@/lib/types/tournament";
-import { MatchCard } from "@/components/match/MatchCard";
-import { BracketRound } from "@/components/bracket/BracketRound";
-
-const ROUND_GAPS: Record<string, string> = {
-  "last-32": "gap-1",
-  "round-of-16": "gap-5",
-  "quarter-finals": "gap-12",
-  "semi-finals": "gap-24",
-};
+import { BracketCenter } from "@/components/bracket/BracketCenter";
+import { BracketWing } from "@/components/bracket/BracketWing";
 
 export function BracketView({ onEditMatch }: { onEditMatch: (id: string) => void }) {
   const matches = useTournamentStore((s) => s.matches);
@@ -27,71 +20,34 @@ export function BracketView({ onEditMatch }: { onEditMatch: (id: string) => void
     return result;
   }, [matches]);
 
-  const sfMatches = byPhase["semi-finals"] ?? [];
-  const thirdMatch = byPhase["third-place-play-off"]?.[0];
   const finalMatch = byPhase["final"]?.[0];
-
-  const earlyPhases = MAIN_KNOCKOUT_PHASES.filter(
-    (p) => p !== "semi-finals" && p !== "final"
-  );
+  const thirdMatch = byPhase["third-place-play-off"]?.[0];
 
   return (
-    <div className="bracket-scroll overflow-x-auto pb-2">
-      <div className="bracket-tree flex min-w-max items-stretch gap-3 px-1">
-        {earlyPhases.map((phase) => (
-          <BracketRound
-            key={phase}
-            label={PHASE_LABELS[phase] ?? phase}
-            matches={byPhase[phase] ?? []}
-            gapClass={ROUND_GAPS[phase]}
+    <div className="bracket-poster overflow-hidden rounded-2xl border border-emerald-200/60 bg-gradient-to-b from-emerald-50/80 via-white to-amber-50/40 shadow-inner">
+      <div className="bracket-banner relative border-b border-emerald-200/50 bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 px-6 py-4 text-center">
+        <div className="pointer-events-none absolute inset-0 opacity-10">
+          <div className="absolute -left-8 -top-8 h-32 w-32 rounded-full bg-white" />
+          <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-amber-300" />
+        </div>
+        <p className="relative text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-200">
+          FIFA World Cup 2026
+        </p>
+        <h2 className="relative mt-1 text-lg font-bold tracking-wide text-white">
+          Knockout Stage
+        </h2>
+      </div>
+
+      <div className="bracket-scroll overflow-x-auto overflow-y-hidden px-4 py-4">
+        <div className="bracket-tree bracket-tree-split mx-auto flex w-max items-stretch justify-center gap-0">
+          <BracketWing side="left" byPhase={byPhase} onEditMatch={onEditMatch} />
+          <BracketCenter
+            finalMatch={finalMatch}
+            thirdMatch={thirdMatch}
             onEditMatch={onEditMatch}
           />
-        ))}
-
-        {/* Semi-finals column — sets bracket height */}
-        <div className="bracket-col flex flex-col">
-          <h3 className="mb-2 text-center text-xs font-bold uppercase tracking-wider text-zinc-500">
-            {PHASE_LABELS["semi-finals"]}
-          </h3>
-          <div className={`flex flex-1 flex-col justify-around ${ROUND_GAPS["semi-finals"]}`}>
-            {sfMatches.map((match) => (
-              <MatchCard
-                key={match.id}
-                match={match}
-                compact
-                onEdit={() => onEditMatch(match.id)}
-              />
-            ))}
-          </div>
+          <BracketWing side="right" byPhase={byPhase} onEditMatch={onEditMatch} />
         </div>
-
-        {/* Third place — vertically centred beside semi-finals */}
-        {thirdMatch && (
-          <div className="bracket-col bracket-third flex flex-col justify-center">
-            <h3 className="mb-2 text-center text-xs font-bold uppercase tracking-wider text-zinc-500">
-              {PHASE_LABELS["third-place-play-off"]}
-            </h3>
-            <MatchCard
-              match={thirdMatch}
-              compact
-              onEdit={() => onEditMatch(thirdMatch.id)}
-            />
-          </div>
-        )}
-
-        {/* Final */}
-        {finalMatch && (
-          <div className="bracket-col flex flex-col justify-center">
-            <h3 className="mb-2 text-center text-xs font-bold uppercase tracking-wider text-zinc-500">
-              {PHASE_LABELS["final"]}
-            </h3>
-            <MatchCard
-              match={finalMatch}
-              compact
-              onEdit={() => onEditMatch(finalMatch.id)}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

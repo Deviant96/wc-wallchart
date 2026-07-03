@@ -18,6 +18,57 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+.bracket-gutter path {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ── Bracket viewport sizing (desktop / laptop) ── */
+.bracket-poster {
+  --bracket-grid-h: min(calc(100vh - 13.5rem), 52rem);
+}
+
+.bracket-scroll {
+  min-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 10rem);
+  display: flex;
+  align-items: center;
+}
+
+.bracket-col-grid,
+.bracket-center-stage,
+.bracket-gutter-svg {
+  height: var(--bracket-grid-h);
+}
+
+.bracket-gutter-wrap {
+  align-self: stretch;
+}
+
+.bracket-gutter-wrap .bracket-gutter-svg {
+  flex: 1;
+  min-height: 0;
+}
+
+.bracket-center-stage {
+  position: relative;
+  width: 12.5rem;
+}
+
+.bracket-wing {
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .bracket-poster {
+    --bracket-grid-h: min(calc(100vh - 11rem), 36rem);
+  }
+
+  .bracket-scroll {
+    min-height: calc(100vh - 10rem);
+    max-height: none;
+  }
+}
+
 /* ── One-page export / print compact layout ── */
 .wallchart-compact.groups-export,
 .wallchart-compact .groups-grid {
@@ -48,9 +99,25 @@ body {
   padding: 1px 2px !important;
 }
 
-.wallchart-compact .bracket-tree {
-  gap: 6px !important;
-  transform-origin: top left;
+.wallchart-compact .bracket-poster {
+  --bracket-grid-h: 32rem;
+}
+
+.wallchart-compact .bracket-banner {
+  padding: 6px 12px !important;
+}
+
+.wallchart-compact .bracket-banner h2 {
+  font-size: 12px !important;
+}
+
+.wallchart-compact .bracket-gutter {
+  width: 14px !important;
+}
+
+.wallchart-compact .bracket-gutter-wrap .bracket-label-spacer {
+  height: 12px !important;
+  margin-bottom: 4px !important;
 }
 
 .wallchart-compact .bracket-col h3,
@@ -74,7 +141,8 @@ body {
 .wallchart-compact .bracket-tree .gap-24 { gap: 28px !important; }
 
 .wallchart-compact.bracket-export .bracket-tree {
-  transform: scale(0.78);
+  transform: scale(0.62);
+  transform-origin: top center;
 }
 
 .wallchart-compact.export-target {
