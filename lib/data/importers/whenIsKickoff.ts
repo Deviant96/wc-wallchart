@@ -114,17 +114,16 @@ export function parseWhenIsKickoff(
 export async function fetchWhenIsKickoff(): Promise<
   Pick<TournamentState, "teams" | "matches" | "matchOrder">
 > {
-  const [teamsRes, matchesRes] = await Promise.all([
-    fetch("https://wheniskickoff.com/data/v1/teams.json"),
-    fetch("https://wheniskickoff.com/data/v1/matches.json"),
-  ]);
+  const res = await fetch("/api/tournament?source=wheniskickoff");
 
-  if (!teamsRes.ok || !matchesRes.ok) {
-    throw new Error("Failed to fetch tournament data from wheniskickoff.com");
+  if (!res.ok) {
+    throw new Error("Failed to fetch tournament data");
   }
 
-  const teamsData = (await teamsRes.json()) as WIKTeamsResponse;
-  const matchesData = (await matchesRes.json()) as WIKMatchesResponse;
+  const { teams: teamsData, matches: matchesData } = (await res.json()) as {
+    teams: WIKTeamsResponse;
+    matches: WIKMatchesResponse;
+  };
 
   return parseWhenIsKickoff(teamsData, matchesData);
 }

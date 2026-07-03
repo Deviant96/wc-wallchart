@@ -1,7 +1,7 @@
 "use client";
 
 import type { Match, Team } from "@/lib/types/tournament";
-import { flagUrl } from "@/lib/utils/flags";
+import { TeamFlag } from "@/components/match/TeamFlag";
 
 interface GroupMatchListProps {
   group: string;
@@ -21,7 +21,7 @@ export function GroupMatchList({
     .sort((a, b) => a.num - b.num);
 
   return (
-    <div className="space-y-1 border-t border-zinc-200 pt-2">
+    <div className="group-matches space-y-1 border-t border-zinc-200 pt-2">
       {groupMatches.map((match) => {
         const home = match.homeTeamId ? teams[match.homeTeamId] : null;
         const away = match.awayTeamId ? teams[match.awayTeamId] : null;
@@ -40,14 +40,7 @@ export function GroupMatchList({
             <span className="flex flex-1 items-center justify-end gap-1 truncate">
               {home ? (
                 <>
-                  {flagUrl(home.code) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={flagUrl(home.code)!}
-                      alt=""
-                      className="h-3 w-4 object-cover"
-                    />
-                  ) : null}
+                  <TeamFlag team={home} className="h-3 w-4" />
                   <span className="truncate">{home.name}</span>
                 </>
               ) : (
@@ -60,14 +53,7 @@ export function GroupMatchList({
             <span className="flex flex-1 items-center gap-1 truncate">
               {away ? (
                 <>
-                  {flagUrl(away.code) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={flagUrl(away.code)!}
-                      alt=""
-                      className="h-3 w-4 object-cover"
-                    />
-                  ) : null}
+                  <TeamFlag team={away} className="h-3 w-4" />
                   <span className="truncate">{away.name}</span>
                 </>
               ) : (

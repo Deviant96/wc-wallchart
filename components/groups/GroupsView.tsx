@@ -18,10 +18,13 @@ export function GroupsView({ onEditMatch }: { onEditMatch: (id: string) => void 
   );
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="groups-grid grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
       {GROUPS.map((group) => (
-        <div key={group} className="rounded-xl border border-zinc-200 bg-zinc-50 p-3">
-          <h3 className="mb-2 text-center text-sm font-bold tracking-wider text-emerald-700">
+        <div
+          key={group}
+          className="group-card rounded-lg border border-zinc-200 bg-zinc-50 p-2"
+        >
+          <h3 className="group-title mb-1 text-center text-xs font-bold tracking-wider text-emerald-700">
             GROUP {group}
           </h3>
           <GroupTable

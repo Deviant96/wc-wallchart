@@ -1,6 +1,9 @@
+import { flagCode } from "@/lib/utils/countryCodes";
+
 export function flagUrl(code: string | undefined | null): string | null {
-  if (!code || code.length !== 3) return null;
-  return `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
+  const iso2 = flagCode(code);
+  if (!iso2) return null;
+  return `https://flagcdn.com/w40/${iso2}.png`;
 }
 
 export function teamDisplayName(

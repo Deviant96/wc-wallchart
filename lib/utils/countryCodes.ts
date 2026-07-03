@@ -1,0 +1,61 @@
+/** FIFA / ISO 3166-1 alpha-3 → flagcdn.com alpha-2 (or regional) codes */
+export const ISO3_TO_FLAG: Record<string, string> = {
+  ARG: "ar",
+  AUS: "au",
+  AUT: "at",
+  BEL: "be",
+  BIH: "ba",
+  BRA: "br",
+  CAN: "ca",
+  CIV: "ci",
+  COD: "cd",
+  COL: "co",
+  CPV: "cv",
+  CRO: "hr",
+  CUW: "cw",
+  CZE: "cz",
+  DZA: "dz",
+  ECU: "ec",
+  EGY: "eg",
+  ENG: "gb-eng",
+  ESP: "es",
+  FRA: "fr",
+  GER: "de",
+  GHA: "gh",
+  HAI: "ht",
+  IRN: "ir",
+  IRQ: "iq",
+  JOR: "jo",
+  JPN: "jp",
+  KOR: "kr",
+  KSA: "sa",
+  MAR: "ma",
+  MEX: "mx",
+  NED: "nl",
+  NOR: "no",
+  NZL: "nz",
+  PAN: "pa",
+  PAR: "py",
+  POR: "pt",
+  QAT: "qa",
+  RSA: "za",
+  SCO: "gb-sct",
+  SEN: "sn",
+  SUI: "ch",
+  SWE: "se",
+  TUN: "tn",
+  TUR: "tr",
+  URU: "uy",
+  USA: "us",
+  UZB: "uz",
+  WAL: "gb-wls",
+  NIR: "gb-nir",
+};
+
+export function flagCode(iso3: string | undefined | null): string | null {
+  if (!iso3) return null;
+  const upper = iso3.toUpperCase();
+  if (ISO3_TO_FLAG[upper]) return ISO3_TO_FLAG[upper];
+  if (upper.length === 2) return upper.toLowerCase();
+  return null;
+}

@@ -4,19 +4,22 @@ import { MatchCard } from "@/components/match/MatchCard";
 interface BracketRoundProps {
   label: string;
   matches: Match[];
+  gapClass?: string;
   onEditMatch: (id: string) => void;
 }
 
-export function BracketRound({ label, matches, onEditMatch }: BracketRoundProps) {
-  const gap =
-    matches.length <= 2 ? "gap-16" : matches.length <= 4 ? "gap-8" : "gap-3";
-
+export function BracketRound({
+  label,
+  matches,
+  gapClass = "gap-3",
+  onEditMatch,
+}: BracketRoundProps) {
   return (
-    <div className="flex flex-col items-center">
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+    <div className="bracket-col flex flex-col">
+      <h3 className="mb-2 text-center text-xs font-bold uppercase tracking-wider text-zinc-500">
         {label}
       </h3>
-      <div className={`flex flex-col ${gap} justify-around`}>
+      <div className={`flex flex-1 flex-col justify-around ${gapClass}`}>
         {matches.map((match) => (
           <MatchCard
             key={match.id}

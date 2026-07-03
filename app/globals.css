@@ -18,10 +18,76 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+/* ── One-page export / print compact layout ── */
+.wallchart-compact.groups-export,
+.wallchart-compact .groups-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+}
+
+.wallchart-compact .group-card {
+  padding: 3px !important;
+  border-radius: 4px !important;
+}
+
+.wallchart-compact .group-title {
+  font-size: 8px !important;
+  margin-bottom: 2px !important;
+}
+
+.wallchart-compact .group-matches {
+  display: none !important;
+}
+
+.wallchart-compact .groups-grid table {
+  font-size: 7px !important;
+}
+
+.wallchart-compact .groups-grid th,
+.wallchart-compact .groups-grid td {
+  padding: 1px 2px !important;
+}
+
+.wallchart-compact .bracket-tree {
+  gap: 6px !important;
+  transform-origin: top left;
+}
+
+.wallchart-compact .bracket-col h3,
+.wallchart-compact .bracket-third h3 {
+  font-size: 7px !important;
+  margin-bottom: 4px !important;
+}
+
+.wallchart-compact .bracket-tree .rounded-lg {
+  width: 130px !important;
+  font-size: 9px !important;
+}
+
+.wallchart-compact .bracket-tree .text-\[10px\] {
+  font-size: 7px !important;
+}
+
+.wallchart-compact .bracket-tree .gap-1 { gap: 2px !important; }
+.wallchart-compact .bracket-tree .gap-5 { gap: 6px !important; }
+.wallchart-compact .bracket-tree .gap-12 { gap: 14px !important; }
+.wallchart-compact .bracket-tree .gap-24 { gap: 28px !important; }
+
+.wallchart-compact.bracket-export .bracket-tree {
+  transform: scale(0.78);
+}
+
+.wallchart-compact.export-target {
+  padding: 8px !important;
+  width: fit-content !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
 @media print {
   @page {
     size: landscape;
-    margin: 10mm;
+    margin: 5mm;
   }
 
   body {
@@ -37,10 +103,32 @@ body {
     border: none !important;
     padding: 0 !important;
     max-width: none !important;
+    width: 100% !important;
   }
 
   main {
     padding: 0 !important;
     max-width: none !important;
+  }
+
+  .wallchart-compact .groups-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+  }
+
+  .wallchart-compact .group-matches {
+    display: none !important;
+  }
+
+  .wallchart-compact .groups-grid table {
+    font-size: 6px !important;
+  }
+
+  .wallchart-compact .bracket-scroll {
+    overflow: visible !important;
+  }
+
+  .wallchart-compact .bracket-tree .rounded-lg {
+    width: 120px !important;
   }
 }

@@ -38,17 +38,22 @@ export function buildAdvanceMap(): Record<number, FeedTarget[]> {
   link(101, 104, "home");
   link(102, 104, "away");
 
-  // Semi-finals → Third place (losers handled in store logic)
   return map;
 }
 
 export const ADVANCE_MAP = buildAdvanceMap();
 
-export const KNOCKOUT_PHASES = [
+/** Main bracket columns (third place rendered beside semi-finals) */
+export const MAIN_KNOCKOUT_PHASES = [
   "last-32",
   "round-of-16",
   "quarter-finals",
   "semi-finals",
+  "final",
+] as const;
+
+export const KNOCKOUT_PHASES = [
+  ...MAIN_KNOCKOUT_PHASES.slice(0, 4),
   "third-place-play-off",
   "final",
 ] as const;

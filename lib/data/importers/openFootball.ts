@@ -102,9 +102,7 @@ export function parseOpenFootball(data: OFResponse): Pick<
 export async function fetchOpenFootball(): Promise<
   Pick<TournamentState, "teams" | "matches" | "matchOrder">
 > {
-  const res = await fetch(
-    "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json"
-  );
+  const res = await fetch("/api/tournament?source=openfootball");
   if (!res.ok) throw new Error("Failed to fetch openfootball data");
   const data = (await res.json()) as OFResponse;
   return parseOpenFootball(data);

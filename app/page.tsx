@@ -43,7 +43,10 @@ export default function WallChartApp() {
           <div
             id="wallchart-export"
             ref={exportRef}
-            className="export-target rounded-xl bg-white p-4 shadow-sm print:shadow-none"
+            data-export-tab={activeTab}
+            className={`export-target rounded-xl bg-white p-4 shadow-sm print:shadow-none ${
+              activeTab === "groups" ? "groups-export" : "bracket-export"
+            }`}
           >
             <div className="mb-4 hidden print:block">
               <h1 className="text-2xl font-bold">FIFA World Cup 2026</h1>

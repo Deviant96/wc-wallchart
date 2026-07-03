@@ -1,5 +1,5 @@
 import type { Team } from "@/lib/types/tournament";
-import { flagUrl } from "@/lib/utils/flags";
+import { TeamFlag } from "@/components/match/TeamFlag";
 
 interface TeamChipProps {
   team: Team;
@@ -16,8 +16,6 @@ export function TeamChip({
   dragging,
   winner,
 }: TeamChipProps) {
-  const url = flagUrl(team.code);
-
   return (
     <div
       className={`flex items-center gap-1.5 rounded border bg-white px-2 py-1 ${
@@ -26,12 +24,7 @@ export function TeamChip({
         dragging ? "shadow-lg ring-2 ring-emerald-400" : "border-zinc-200"
       } ${winner ? "border-emerald-500 bg-emerald-50 font-semibold" : ""}`}
     >
-      {url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt="" className="h-4 w-6 shrink-0 object-cover" />
-      ) : team.flag ? (
-        <span className="text-base leading-none">{team.flag}</span>
-      ) : null}
+      <TeamFlag team={team} className={compact ? "h-3 w-4" : "h-4 w-6"} />
       <span className="truncate">{team.name}</span>
     </div>
   );
