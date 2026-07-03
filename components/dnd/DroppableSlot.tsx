@@ -3,6 +3,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import type { Team } from "@/lib/types/tournament";
 import { TeamChip } from "@/components/match/TeamChip";
+import { useClientMounted } from "@/hooks/useClientMounted";
 
 interface DroppableSlotProps {
   matchId: string;
@@ -14,7 +15,26 @@ interface DroppableSlotProps {
   onClick?: () => void;
 }
 
-export function DroppableSlot({
+export function DroppableSlot(props: DroppableSlotProps) {
+  const mounted = useClientMounted();
+
+  if (!mounted) {
+    return (
+      <div onClick={props.onClick} className={props.onClick ? "cursor-pointer" : ""}>
+        <SlotContent
+          team={props.team}
+          placeholder={props.placeholder}
+          compact={props.compact}
+          winner={props.winner}
+        />
+      </div>
+    );
+  }
+
+  return <DroppableSlotInner {...props} />;
+}
+
+function DroppableSlotInner({
   matchId,
   slot,
   team,
@@ -36,13 +56,27 @@ export function DroppableSlot({
         isOver ? "bg-emerald-100 ring-2 ring-emerald-400" : ""
       } ${onClick ? "cursor-pointer" : ""}`}
     >
-      {team ? (
-        <TeamChip team={team} compact={compact} winner={winner} />
-      ) : (
-        <span className="block truncate px-2 py-1 text-xs italic text-zinc-400">
-          {placeholder}
-        </span>
-      )}
+      <SlotContent
+        team={team}
+        placeholder={placeholder}
+        compact={compact}
+        winner={winner}
+      />
     </div>
+  );
+}
+
+function SlotContent({
+  team,
+  placeholder = "TBD",
+  compact,
+  winner,
+}: Pick<DroppableSlotProps, "team" | "placeholder" | "compact" | "winner">) {
+  return team ? (
+    <TeamChip team={team} compact={compact} winner={winner} />
+  ) : (
+    <span className="block truncate px-2 py-1 text-xs italic text-zinc-400">
+      {placeholder}
+    </span>
   );
 }

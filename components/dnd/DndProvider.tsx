@@ -13,8 +13,19 @@ import { useState } from "react";
 import { useTournamentActions, useTournamentStore } from "@/lib/store/tournamentStore";
 import type { DragTeamData } from "@/lib/types/tournament";
 import { TeamChip } from "@/components/match/TeamChip";
+import { useClientMounted } from "@/hooks/useClientMounted";
 
 export function DndProvider({ children }: { children: React.ReactNode }) {
+  const mounted = useClientMounted();
+
+  if (!mounted) {
+    return <>{children}</>;
+  }
+
+  return <DndProviderInner>{children}</DndProviderInner>;
+}
+
+function DndProviderInner({ children }: { children: React.ReactNode }) {
   const [activeTeamId, setActiveTeamId] = useState<string | null>(null);
   const teams = useTournamentStore((s) => s.teams);
   const { assignTeamToSlot } = useTournamentActions();
@@ -55,9 +66,7 @@ export function DndProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
       <DragOverlay>
-        {activeTeam ? (
-          <TeamChip team={activeTeam} dragging />
-        ) : null}
+        {activeTeam ? <TeamChip team={activeTeam} dragging /> : null}
       </DragOverlay>
     </DndContext>
   );

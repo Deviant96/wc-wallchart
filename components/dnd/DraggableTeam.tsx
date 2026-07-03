@@ -4,6 +4,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import type { Team } from "@/lib/types/tournament";
 import { TeamChip } from "@/components/match/TeamChip";
+import { useClientMounted } from "@/hooks/useClientMounted";
 
 interface DraggableTeamProps {
   team: Team;
@@ -11,6 +12,16 @@ interface DraggableTeamProps {
 }
 
 export function DraggableTeam({ team, compact }: DraggableTeamProps) {
+  const mounted = useClientMounted();
+
+  if (!mounted) {
+    return <TeamChip team={team} compact={compact} />;
+  }
+
+  return <DraggableTeamInner team={team} compact={compact} />;
+}
+
+function DraggableTeamInner({ team, compact }: DraggableTeamProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: `drag-team-${team.id}`,

@@ -19,6 +19,7 @@ export function TeamFlag({ team, className = "h-4 w-6" }: TeamFlagProps) {
       <img
         src={url}
         alt=""
+        crossOrigin="anonymous"
         className={`shrink-0 object-cover ${className}`}
         onError={() => setImgFailed(true)}
       />

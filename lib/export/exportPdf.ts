@@ -1,6 +1,7 @@
 import { jsPDF } from "jspdf";
 import { toPng } from "html-to-image";
 import type { TabView } from "@/lib/types/tournament";
+import { CAPTURE_OPTIONS } from "@/lib/export/captureOptions";
 import { withCompactLayout } from "@/lib/export/compactLayout";
 
 export async function exportPdf(
@@ -9,11 +10,7 @@ export async function exportPdf(
   tab: TabView
 ): Promise<void> {
   await withCompactLayout(element, async () => {
-    const dataUrl = await toPng(element, {
-      cacheBust: true,
-      pixelRatio: 2,
-      backgroundColor: "#ffffff",
-    });
+    const dataUrl = await toPng(element, CAPTURE_OPTIONS);
 
     const img = new Image();
     await new Promise<void>((resolve, reject) => {

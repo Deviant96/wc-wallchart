@@ -1,4 +1,5 @@
 import { toPng } from "html-to-image";
+import { CAPTURE_OPTIONS } from "@/lib/export/captureOptions";
 import { withCompactLayout } from "@/lib/export/compactLayout";
 
 export async function exportPng(
@@ -6,11 +7,7 @@ export async function exportPng(
   filename: string
 ): Promise<void> {
   await withCompactLayout(element, async () => {
-    const dataUrl = await toPng(element, {
-      cacheBust: true,
-      pixelRatio: 2,
-      backgroundColor: "#ffffff",
-    });
+    const dataUrl = await toPng(element, CAPTURE_OPTIONS);
 
     const link = document.createElement("a");
     link.download = filename;
